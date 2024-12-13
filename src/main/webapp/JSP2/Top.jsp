@@ -13,7 +13,7 @@
     <tr height="100">
       <!-- 로고 이미지 (2열 병합) -->
       <td colspan="2" align="center" width="206">
-        <img alt="" src="../images/2.png" width="200" height="70">
+        <img alt="이미지 오류 났습니다." src="../images/2.png" width="200" height="70">
       </td>
       <!-- 사이트 제목 (4열 병합) -->
       <td colspan="4" align="center">
