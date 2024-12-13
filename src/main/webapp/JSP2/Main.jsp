@@ -12,7 +12,7 @@
         <!-- 상단 영역 -->
         <tr height="150">
             <td align="center" colspan="2">
-                <!-- Top.jsp 파일을 포함하고 "id" 파라미터를 "aaa"로 전달 -->
+                <!-- Top.jsp 파일을 포함하고 Top.jsp로 "id" 파라미터를 "aaa"로 전달 -->
                 <jsp:include page="Top.jsp">
                     <jsp:param value="aaa" name="id" />
                 </jsp:include>
