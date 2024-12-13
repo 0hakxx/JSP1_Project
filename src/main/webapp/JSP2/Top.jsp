@@ -11,18 +11,25 @@
   <table width="800">
     <!-- 첫 번째 행: 로고 및 제목 -->
     <tr height="100">
+
+
       <!-- 로고 이미지 (2열 병합) -->
       <td colspan="2" align="center" width="206">
         <img alt="이미지 오류 났습니다." src="../images/2.png" width="200" height="70">
       </td>
+
+
       <!-- 사이트 제목 (4열 병합) -->
       <td colspan="4" align="center">
         <font size="10">낭만 캠핑</font>
       </td>
+
+
     </tr>
+
     <!-- 두 번째 행: 네비게이션 메뉴 -->
     <tr height="50">
-      <!-- 각 메뉴 항목 -->
+      <!-- 각 메뉴 항목 //width 을 다 합치면 800이다. 800은 테이블의 width와 동일하게 맞춤.-->
       <td width="110" align="center">텐트</td>
       <td width="110" align="center">의자</td>
       <td width="110" align="center">식기류</td>
