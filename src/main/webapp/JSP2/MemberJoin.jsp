@@ -25,7 +25,7 @@
 						placeholder="비밀번호는 숫자와 영어만 넣어주세요">						
 					</td>
 				</tr>
-				
+
 				<tr height="50">
 					<td width="150" align="center">이메일</td>
 					<td width="350" align="center">
