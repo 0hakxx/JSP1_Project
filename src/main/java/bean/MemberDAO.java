@@ -1,6 +1,9 @@
 package bean;
 
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,21 +25,46 @@ public class MemberDAO {
 
 
     //데이터베이스에 접근하는 메서드 작성
+//    public void getCon(){
+//        try {
+//            //1.데이터베이스를 사용한다고 선언
+//            //이는 Oracle 데이터베이스와의 연결을 위해 필요합니다.
+//            Class.forName("oracle.jdbc.driver.OracleDriver");
+//
+//            //2. 데이터 베이스 접속
+//            // DriverManager를 사용하여 데이터베이스에 연결합니다.
+//            con = DriverManager.getConnection(url,id,pass);
+//
+//        }catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
-    public void getCon(){
+    //데이터베이스에 접근하는 메서드 작성 Connection Pool 방식
+    public void getCon()
+    {
         try {
-            //1.데이터베이스를 사용한다고 선언
-            //이는 Oracle 데이터베이스와의 연결을 위해 필요합니다.
-            Class.forName("oracle.jdbc.driver.OracleDriver");
+            // JNDI를 사용하여 외부 리소스에 접근하기 위한 초기 컨텍스트를 생성
+            Context initContext = new InitialContext();
 
-            //2. 데이터 베이스 접속
-            // DriverManager를 사용하여 데이터베이스에 연결합니다.
-            con = DriverManager.getConnection(url,id,pass);
+            // java:/comp/env는 JNDI 네이밍의 표준 루트 컨텍스트
+            // 이를 통해 톰캣 서버의 환경 설정에 접근
+            Context envContext = (Context) initContext.lookup("java:/comp/env");
+
+            // JNDI 이름으로 DataSource 객체를 찾음
+            //데이터소스 객체 선언. context.xml 파일의 Resource name 값을 찾아옴.
+            DataSource ds = (DataSource) envContext.lookup("jdbc/pool");
+
+            // DataSource로부터 데이터베이스 연결(Connection) 객체를 얻음
+            // 이 방식은 커넥션 풀을 사용하여 효율적으로 DB 연결을 관리
+            con = ds.getConnection();
+
 
         }catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
     public void insertMember(MemberBean mbean){
 
@@ -143,23 +171,23 @@ public class MemberDAO {
 
     public String getPass(String id){
         String pass = new String();
+
         try {
             getCon();
-            String sql = "SELECT pass1 FROM MEMBER WHERE id= ?";
+            String sql = "SELECT PASS1 FROM MEMBER WHERE id=?";
             pstmt = con.prepareStatement(sql);
             pstmt.setString(1, id);
             rs = pstmt.executeQuery();
             if (rs.next()) {
-                pass = rs.getString("pass1");
+                pass = rs.getString("PASS1");
             }
             con.close(); //자원 반납
 
         }catch (Exception e){
+            System.out.println("Error in getPass: " + e.getMessage());
             e.printStackTrace();
         }
-
         return pass;
-
     }
 
     //회원정보를 수정하는 메서드,,수정만 하면 됨으로 반환값은 없다.
@@ -178,7 +206,20 @@ public class MemberDAO {
         }
         catch (Exception e){
             e.printStackTrace();
+        }
+    }
+    //한 회원을 삭제하는 메서드, 삭제만 하면 됨으로 반환값은 없다.
+    public void deleteMember(String id){
+        try {
+            getCon();
+            String sql = "DELETE FROM MEMBER WHERE id = ?";
+            pstmt = con.prepareStatement(sql);
+            pstmt.setString(1, id);
+            pstmt.executeUpdate();
 
+            con.close();
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 }
