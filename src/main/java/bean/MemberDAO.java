@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Connection;
+import java.util.Vector;
 
 //Oracle 데이터베이스를 연결, select, insert, delete , update 작업을 해주는 클래스입니다.
 public class MemberDAO {
@@ -71,6 +72,72 @@ public class MemberDAO {
             e.printStackTrace();
             return;
         }
+    }
+    //모든 회원들의 정보를 Return 호출하는 메서드 작성.
+    //이 메서드는 데이터베이스에서 모든 회원 정보를 조회하여 Vector<MemberBean> 형태로 반환합니다.
+    public Vector<MemberBean> allSelectMember(){
 
+        Vector<MemberBean> v = new Vector<MemberBean>();
+        try {
+            //connection 연결
+            getCon();
+            //쿼리 준비
+            String sql = "select * from MEMBER";
+            // 객체 선언
+            pstmt = con.prepareStatement(sql);
+            //쿼리를 실행시킨 결과를 리턴해서 받아줌, 즉 오라클의 DB를 검색된 조회 결과를 자바 객체에 저장.
+            rs = pstmt.executeQuery();
+            //반복문을 사용하여 rs에 저장된 데이터를 추출
+            while (rs.next()) {
+                MemberBean bean = new MemberBean(); //컬럼으로 나뉘어진 데이터를 Bean클래스에 저장
+                // - rs.getString("컬럼명")은 현재 행의 지정된 컬럼 값을 문자열로 반환합니다.
+                bean.setId(rs.getString("id"));
+                bean.setPass1(rs.getString("pass1"));
+                bean.setEmail(rs.getString("email"));
+                bean.setTel(rs.getString("tel"));
+                bean.setHobby(rs.getString("hobby"));
+                bean.setJob(rs.getString("job"));
+                bean.setAge(rs.getString("age"));
+                bean.setInfo(rs.getString("info"));
+                // - v.addElement(mbean)는 생성된 MemberBean 객체를 Vector에 추가합니다.
+                v.addElement(bean);
+            }
+
+            con.close(); //자원 반납
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return v; //저장된 v를 Return
+    }
+
+    //한 사람의 대한 정보를 리턴하는 메서드 작성
+    public MemberBean oneSelectMember(String id){
+        MemberBean bean = new MemberBean();
+
+        try {
+            getCon();
+            //쿼리 준비
+            String sql = "select * from MEMBER WHERE id = ?";
+            pstmt = con.prepareStatement(sql);
+            // ?에 전달받은 String id를 매핑하여 쿼리 작성 완료
+            pstmt.setString(1, id);
+            //쿼리 실행
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                bean.setId(rs.getString("id"));
+                bean.setPass1(rs.getString("pass1"));
+                bean.setEmail(rs.getString("email"));
+                bean.setTel(rs.getString("tel"));
+                bean.setHobby(rs.getString("hobby"));
+                bean.setJob(rs.getString("job"));
+                bean.setAge(rs.getString("age"));
+                bean.setInfo(rs.getString("info"));
+            }
+            con.close();//자원 반납
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return bean;
     }
 }
