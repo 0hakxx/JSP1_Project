@@ -140,4 +140,24 @@ public class MemberDAO {
         }
         return bean;
     }
+
+    public String getPass(String id){
+        String pass = new String();
+        try {
+            getCon();
+            String sql = "SELECT pass1 FROM MEMBER WHERE id= ?";
+            pstmt = con.prepareStatement(sql);
+            pstmt.setString(1, id);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                pass = rs.getString("pass1");
+            }
+            con.close(); //자원 반납
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return pass;
+    }
 }
