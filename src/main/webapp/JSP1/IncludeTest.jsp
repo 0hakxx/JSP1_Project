@@ -23,7 +23,7 @@
         <tr height="400">
             <td width = "600" align="center">
                 <!-- 중앙에 이미지 표시 -->
-                <img alt ="" src = "images/1.jpg" width="400" height="300">
+                <img alt ="" src = "../images/1.jpg" width="400" height="300">
             </td>
         </tr>
 
