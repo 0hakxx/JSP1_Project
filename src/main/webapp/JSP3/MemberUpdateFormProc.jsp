@@ -32,7 +32,8 @@
 
         //비밀번호 인증 틀렸으면 패스워드 수정이 안 되게끔 만들기 위한 코드
         if(mbean.getPass1().equals(pass)){//기존 DB 패스워드와의 인증이 성공하면 MEMBER 테이블 수정
-
+            mdao.updateMember(mbean);
+            response.sendRedirect("MemberList.jsp");
         }
         else
         {

@@ -52,8 +52,11 @@
 
         <tr height="50">
             <td align="center" colspan="2">
+                <!-- hidden 필드를 사용하여 사용자에게는 보여줄 필요가 없지만
+                서버로 전송해야 하는 id 값을 안전하게 전달하기 위해서 -->
                 <input type="hidden" valye="id" value="<%=mbean.getId()%>">
-                <input type="submit" value="회원 수정하기">&nbsp;&nbsp;</form>
+                <input type="submit" value="회원 수정하기">&nbsp;&nbsp;
+    </form>
                 <button onclick="location.href='MemberList.jsp'">회원 전체 보기</button>
             </td>
         </tr>

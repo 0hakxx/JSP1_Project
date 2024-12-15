@@ -159,5 +159,26 @@ public class MemberDAO {
         }
 
         return pass;
+
+    }
+
+    //회원정보를 수정하는 메서드,,수정만 하면 됨으로 반환값은 없다.
+    public void updateMember(MemberBean mbean){
+
+        try {
+            getCon();
+            String sql = "UPDATE MEMBER SET email=?, tel=? WHERE id = ?";
+            pstmt = con.prepareStatement(sql);
+            pstmt.setString(1, mbean.getEmail());
+            pstmt.setString(2, mbean.getTel());
+            pstmt.setString(3, mbean.getId());
+            pstmt.executeUpdate();
+
+            con.close();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+
+        }
     }
 }
