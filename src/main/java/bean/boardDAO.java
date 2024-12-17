@@ -91,7 +91,6 @@ public class boardDAO {
             //자원 반납
             con.close();
 
-
         }catch (Exception e) {
             System.err.println("DB에 저장하지 못 하였습니다.");
             e.printStackTrace();

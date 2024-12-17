@@ -92,5 +92,4 @@ public class boardBean {
     public void setContent(String content) {
         this.content = content;
     }
-
 }
