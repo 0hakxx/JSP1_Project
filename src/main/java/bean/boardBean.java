@@ -13,6 +13,15 @@ public class boardBean {
     private int    readcount;
     private String content;
 
+
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
+    }
+
     public String getWriter() {
         return writer;
     }

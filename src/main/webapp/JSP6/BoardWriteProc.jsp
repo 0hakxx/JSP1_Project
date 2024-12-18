@@ -30,6 +30,11 @@
     //데이터베이스 저장 메서드 호출하는데 bean 객체를 넣어준다.
     bdao.insertBoard(boardbean);
 
+
+    //게시글 저장 후 전체 게시글 보기
+    response.sendRedirect("BoardList.jsp");
+
+
 %>
 </body>
 </html>
