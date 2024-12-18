@@ -18,19 +18,8 @@
 - 계층형 게시판 구조
 
 ## 📋 데이터베이스 구조
-CREATE TABLE BOARD (
-NUM NUMBER PRIMARY KEY,
-WRITER VARCHAR2(20),
-EMAIL VARCHAR2(50),
-SUBJECT VARCHAR2(50),
-PASSWORD VARCHAR2(20),
-REG_DATE DATE,
-REF NUMBER,
-RE_STEP NUMBER,
-RE_LEVEL NUMBER,
-READCOUNT NUMBER,
-CONTENT VARCHAR2(2000)
-);
+![image](https://github.com/user-attachments/assets/4f2a9d29-4e76-4bd4-a630-10c73211a563)
+
 
 ## 🔍 주요 구현 사항
 - 커넥션 풀 활용: JNDI를 통한 효율적인 데이터베이스 연결 관리
@@ -40,17 +29,8 @@ CONTENT VARCHAR2(2000)
 
 ## 📦 프로젝트 구조
 
-src/
-├── main/
-│ ├── java/
-│ │ └── bean/
-│ │ ├── boardBean.java
-│ │ └── boardDAO.java
-│ └── webapp/JSP6
-│ ├── BoardList.jsp
-│ ├── BoardWrite.jsp
-│ ├── BoardUpdate.jsp
-│ └── BoardDelete.jsp
+![image](https://github.com/user-attachments/assets/28cadd6e-41c2-420b-9680-c80fd99ad7c2)
+
 
 JSP1~JSP5 폴더는 기본적인 JSP 활용문법 및 회원가입 예제.
 
@@ -63,4 +43,3 @@ JSP1~JSP5 폴더는 기본적인 JSP 활용문법 및 회원가입 예제.
 
 ## 📝 라이선스
 This project is licensed under the MIT License
-
