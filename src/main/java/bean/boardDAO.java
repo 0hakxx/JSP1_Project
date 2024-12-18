@@ -307,7 +307,7 @@ public class boardDAO {
             e.printStackTrace();
         }
     }
-    //받은 bean객체를 토대로 해당되는 게시글을 DB에 삭제 메서드, 삭제만 하면 됨으로 반환 값은 필요없다.
+    //받은 bean객체를 토대로 해당되는 게시글을 DB에 삭제 메서드, 삭제 처리만하면 되기 때문에 반환 값은 필요없다.
     public void DeleteBoard(int num) {
         try {
             getCon();
