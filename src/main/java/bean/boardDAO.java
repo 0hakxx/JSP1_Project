@@ -347,7 +347,7 @@ public class boardDAO {
         }
     }
 
-    //페이지를 나누기 위한 전체 게시글의 갯수 return하는 메서드 호출
+    //페이지를 나누기 위한 전체 게시글의 갯수 return하는 메서드 호출한다.
     public int getAllCount() {
         int count = 0; //int 형으로 반환하기 위한 저장소 변수 생성
         try {

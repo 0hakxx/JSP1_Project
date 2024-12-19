@@ -79,7 +79,7 @@
     String currentPage = request.getParameter("currentPage");
 
     // 첫 페이지 또는 다른 페이지에서 넘어온 경우 currentPage가 null일 수 있음
-    // 이 경우 기본값으로 1페이지 설정
+    // 이 경우 기본값으로 1페이지 설정.
     if(currentPage==null){
         currentPage="1"; // 기본 페이지 번호 설정
     }
