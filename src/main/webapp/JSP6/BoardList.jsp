@@ -72,16 +72,12 @@
 
 
 <%
-      request.setCharacterEncoding("UTF-8");
-//    이 JSP 페이지는 게시판의 모든 게시글 목록을 표시합니다.데이터베이스에서 전체 게시글의 정보를 가져온다.
-//    boardBean 객체는 각 게시글의 정보를 담고 있습니다.
 
     int PostsPerPage = 10;  //한 페이지에 표시할 게시글 수
 
     //사용자의 현재 페이지 번호 가져오기
     String currentPage = request.getParameter("currentPage");
 
-    //DAO(Connection Pool) 객체 생성
     // 첫 페이지 또는 다른 페이지에서 넘어온 경우 currentPage가 null일 수 있음
     // 이 경우 기본값으로 1페이지 설정
     if(currentPage==null){
@@ -99,9 +95,6 @@
     totalPosts = bdao.getAllCount();
 
 
-    //회원들의 정보가 얼마나 들어가 있는지 모르기 때문에 가변길이인 vector를 이용하여 데이터를 저장해줌.
-    //즉 boardBean Vector 여러 객체를 Return 받는다.
-    Vector<boardBean> vec = bdao.getAllBoard();
     // 현재 페이지에 해당하는 게시글의 시작과 끝 행 번호 계산
     // 예: 2페이지라면, startRow = 11, endRow = 20
     int startRow = (currentPageInt-1)* PostsPerPage + 1;
@@ -139,7 +132,6 @@
     %>
 
     <tr height="40">
-        <td align="center" width="50"> <%=i+1%> </td>
         <td align="center" width="50"> <%=number--%> </td>
 <%--        number--으로 주는 이유는 number 변수는 초기에 전체 게시글 수에서 현재 페이지의 이전 게시글 수를 뺀 값으로 설정됨(110 Line)--%>
 <%--        게시글 목록을 출력할 때마다 number--를 사용하여 번호를 1씩 감소시킨다.--%>
@@ -178,7 +170,6 @@
 
 
 </table>
-    <div style="text-align: center; margin-top: 20px;">
 <%--페이지 카운터링 소스를 작성--%>
 <p>
 <%
