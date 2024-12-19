@@ -24,7 +24,7 @@ public class MemberDAO {
     ResultSet rs;
 
 
-    //데이터베이스에 접근하는 메서드 작성
+    //데이터베이스에 접근하는 메서드 작성, Connection Pool이 아닌 JDBC로만 이용하는 방법.
 //    public void getCon(){
 //        try {
 //            //1.데이터베이스를 사용한다고 선언

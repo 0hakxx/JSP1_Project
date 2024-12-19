@@ -3,6 +3,7 @@ package bean;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
+import java.lang.reflect.ParameterizedType;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -100,16 +101,39 @@ public class boardDAO {
 
     //모든 게시글을 보기 위해 Bean객체를 Return
     //이 메서드는 데이터베이스에서 모든 게시글 정보를 조회하여 Vector<boardBean> 형태로 반환합니다.
-    public Vector<boardBean> getAllBoard() {
-        Vector<boardBean> v = new Vector<>(); //여러 Bean 객체를 담고 Return을 위해 Vector Bean을 생성
+    public Vector<boardBean> getAllBoard(int start, int end) {
+        Vector<boardBean> v = new Vector<>(); //여러 Bean 객체를 담고 Return을 위해 담을 공간인 Vector Bean을 생성
 
         try {
             //connection 연결
             getCon();
             //쿼리 준비
-            String sql = "select * from BOARD ORDER BY ref desc, re_step asc";
+//            -- 1. 가장 안쪽의 서브쿼리: (select * from board order by ref desc, re_step asc)
+//            --    - board 테이블의 모든 데이터를 조회
+//            --    - ref(그룹번호)를 기준으로 내림차순 정렬 (최신글이 위로)
+//            --    - re_step(답글순서)를 기준으로 오름차순 정렬 (원글 다음 답글이 순서대로)
+//
+//            -- 2. 중간 서브쿼리: select A.*, Rownum Rnum from (...)A
+//                    --    - 정렬된 결과에 Rownum을 부여
+//                    --    - Rownum은 오라클에서 제공하는 가상 컬럼으로 조회된 순서대로 1부터 번호를 매김
+//                    --    - A는 서브쿼리의 별칭
+//
+//            -- 3. 최종 쿼리: select * from (...) where Rnum >= ? and Rnum <= ?
+//            --    - 부여된 Rownum을 기준으로 특정 범위의 데이터만 추출
+//            --    - start와 end 파라미터로 전달된 값 사이의 데이터만 조회
+//                    --    - 이를 통해 페이지네이션 구현
+//
+//                    -- 예시: 한 페이지당 10개씩 보여줄 때
+//                    -- 1페이지: Rnum >= 1 and Rnum <= 10
+//                    -- 2페이지: Rnum >= 11 and Rnum <= 20
+
+            String sql = "select * from (select A.* ,Rownum Rnum from (select *from board order by ref desc ,re_step asc)A)"
+                    + "where Rnum >= ? and Rnum <= ?";
             // 객체 선언
             pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, start);
+            pstmt.setInt(2, end);
+
             //쿼리를 실행시킨 결과를 리턴해서 받아줌, 즉 오라클의 DB를 검색된 조회 결과를 자바 객체에 저장.
             rs = pstmt.executeQuery();
             //반복문을 사용하여 rs에 저장된 데이터를 추출
@@ -285,7 +309,7 @@ public class boardDAO {
                 pass = rs.getString(1);
             }
             con.close();
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return pass;
@@ -303,10 +327,11 @@ public class boardDAO {
             pstmt.executeUpdate();
             con.close();
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     //받은 bean객체를 토대로 해당되는 게시글을 DB에 삭제 메서드, 삭제 처리만하면 되기 때문에 반환 값은 필요없다.
     public void DeleteBoard(int num) {
         try {
@@ -317,9 +342,26 @@ public class boardDAO {
             pstmt.executeUpdate();
             con.close();
 
-        }catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    //페이지를 나누기 위한 전체 게시글의 갯수 return하는 메서드 호출
+    public int getAllCount() {
+        int count = 0; //int 형으로 반환하기 위한 저장소 변수 생성
+        try {
+            getCon();
+            String sql = "SELECT COUNT(*) FROM BOARD";
+            pstmt = con.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+            con.close();
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
 }
